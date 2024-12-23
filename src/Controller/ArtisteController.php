@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Artiste;
 use App\Repository\ArtisteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,16 @@ class ArtisteController extends AbstractController
     {
         $artisteArr = $artisteRepository->findAll();
 
-        return $this->render('artiste/index.html.twig', [
+        return $this->render('artiste/list_artist.html.twig', [
             'artisteArr' => $artisteArr,
+        ]);
+    }
+
+    #[Route('/artiste/{id}', name: 'ficheArtiste',methods: 'GET')]
+    public function ficheArtiste(Artiste $artiste): Response
+    {
+        return $this->render('artiste/fiche_artist.html.twig', [
+            'artisteObj' => $artiste,
         ]);
     }
 }
