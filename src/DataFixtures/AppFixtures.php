@@ -41,7 +41,7 @@ class AppFixtures extends Fixture
             $album->setId(intval($Album[0]))
                 ->setName($Album[1])
                 ->setCreatedAt(intval($Album[2]))
-                ->setImageUrl($faker->imageUrl(640, 480))
+                ->setImageUrl($faker->imageUrl())
                 ->setArtist($this->getReference("artiste" . $Album[4], Artiste::class));
 
             $manager->persist($album);
