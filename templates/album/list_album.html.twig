@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des albums{% endblock %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Liste des albums</h1>
+    <hr>
+    <div class="row pt-2">
+        {% for album in albums %}
+            <div class="col-sm-12 col-md-12 -lg-4 col-xl-3">
+                <div class="card mb-3">
+                    <h3 class="card-header">
+                        <a href="{{ path('app_album', {'id' : album.id}) }}"> {{ album.name }}</a>
+                    </h3>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{ path('ficheArtiste', {'id': album.artist.id}) }}"
+                               class="text-decoration-none">{{ album.artist.name }}</a>
+                        </h5>
+                    </div>
+                    <img class="avatar mx-auto" style="height: auto; width: 200px; display: block;"
+                         src="{{ album.imageUrl }}" alt="Card image">
+                    <div class="card-body">
+                        <p class="card-text">{{ album.createdAt }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" style="">
+                            {% for style in album.styles %}
+                                <span style="background-color: {{ style.color }}; color: white; padding: 5px; border-radius: 5px">{{ style.name }}</span>
+                            {% endfor %}
+                        </li>
+                        {% set nb = album.pieces|length %}
+                        <li class="list-group-item">{{ nb }} {% if nb > 1 %}morceaux {% else %} morceau {% endif %}</li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

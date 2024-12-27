@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Fiche Album</h1>
+    <hr>
+    <div class="row pt-2">
+        {% set nbPiece = album.pieces|length %}
+        <div>
+            <div class="card mb-3">
+                <h3 class="card-header">{{ album.name }} ({{ nbPiece }})</h3>
+                <div class="row">
+                    <div class="col-3 d-flex align-items-center mx-auto">
+                        <img class="avatar mx-auto" style="height: auto; width: 200px; display: block;"
+                             src="{{ album.imageUrl }}" alt="Card image">
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ path('ficheArtiste', {'id': album.artist.id}) }}" class="badge badge-success text-decoration-none"
+                                   style="color: white; background-color: green">
+                                    {{ album.artist.name }}
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ album.createdAt }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% for style in album.styles %}
+                                    <span style="background-color: {{ style.color }}; color: white; padding: 5px; border-radius: 5px">{{ style.name }}</span>
+                                {% endfor %}
+                            </li>
+                            <li class="list-group-item">{{ nbPiece }} {% if nbPiece > 1 %}morceaux {% else %} morceau {% endif %}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover mx-auto">
+        <thead>
+        <tr class="table-primary">
+            <th scope="col">Piste</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Duree</th>
+            <th scope="col">Note</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for piece in album.pieces %}
+            <tr>
+                <td>{{ piece.piste }}</td>
+                <td>{{ piece.title }}</td>
+                <td>{{ piece.duration }}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block title %}
+    Description album
+{% endblock %}
+

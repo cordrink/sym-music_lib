@@ -23,6 +23,9 @@ class Piece
     #[ORM\JoinColumn(nullable: false)]
     private ?Album $album = null;
 
+    #[ORM\Column]
+    private ?int $Piste = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,6 +70,18 @@ class Piece
     public function setAlbum(?Album $album): static
     {
         $this->album = $album;
+
+        return $this;
+    }
+
+    public function getPiste(): ?int
+    {
+        return $this->Piste;
+    }
+
+    public function setPiste(int $Piste): static
+    {
+        $this->Piste = $Piste;
 
         return $this;
     }
