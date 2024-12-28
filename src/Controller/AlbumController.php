@@ -13,7 +13,7 @@ class AlbumController extends AbstractController
     #[Route('/albums', name: 'app_album_list', methods: ['GET'])]
     public function index(AlbumRepository $albumRepository): Response
     {
-        $albumArr = $albumRepository->findAll();
+        $albumArr = $albumRepository->findBy(['name' => 'ASC']);
 
         return $this->render('album/list_album.html.twig', [
             'albums' => $albumArr,
