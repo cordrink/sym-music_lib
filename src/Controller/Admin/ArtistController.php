@@ -30,31 +30,17 @@ class ArtistController extends AbstractController
 
 
     #[Route('/admin/artiste/ajout', name: 'admin_artist_add', methods: ['GET', 'POST'])]
-    public function addArtist(Request $request, EntityManagerInterface $manager): Response
+    #[Route('/admin/artiste/modif/{id}', name: 'admin_artist_update', methods: ['GET', 'POST'])]
+    public function addUpdateArtist(Request $request, EntityManagerInterface $manager, Artiste $artiste = null): Response
     {
-        $form = $this->createForm(ArtistType::class, new Artiste() );
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            //dd($artiste);
-
-            $manager->persist($form->getData());
-            $manager->flush();
-
-            $this->addFlash('success',"L'artiste a bien ete ajoute");
-
-            return $this->redirectToRoute('admin_artist');
+        if ($artiste == null) {
+            $artiste = new Artiste();
+            $mode = "ajoute";
+        } else {
+            $mode = "modifie";
         }
 
-        return $this->render('admin/artist/addArtist.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/admin/artiste/modif/{id}', name: 'admin_artist_update', methods: ['GET', 'POST'])]
-    public function updateArtist(Artiste $artiste, Request $request, EntityManagerInterface $manager): Response
-    {
-        $form = $this->createForm(ArtistType::class, $artiste );
+        $form = $this->createForm(ArtistType::class, $artiste);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,12 +49,12 @@ class ArtistController extends AbstractController
             $manager->persist($artiste);
             $manager->flush();
 
-            $this->addFlash('success',"L'artiste a bien ete modifie");
+            $this->addFlash('success',"L'artiste a bien ete $mode");
 
             return $this->redirectToRoute('admin_artist');
         }
 
-        return $this->render('admin/artist/updateArtist.html.twig', [
+        return $this->render('admin/artist/addUpdateArtist.html.twig', [
             'form' => $form->createView(),
         ]);
     }

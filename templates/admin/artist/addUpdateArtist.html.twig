@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="pt-2 text-center">Ajout d'un artiste</h1>
+    <h1 class="pt-2 text-center">
+        {% if app.request.attributes.get('_route') == "admin_artist_add" %}
+            Ajout
+        {% else %}
+            Modification
+        {% endif %}
+        d'un artiste
+    </h1>
     {{ form_start(form) }}
 
     {{ form_row(form.name) }}
@@ -14,7 +21,7 @@
 
     <div class="row">
         <div class="col">
-            <input type="submit" class="btn btn-success w-100" value="Valider">
+            <input type="submit" class="btn btn-success w-100" value="Valider {% if app.request.attributes.get('_route') == "admin_artist_update" %}les modifications{% endif %}">
         </div>
         <div class="col">
             <a href="{{ path('admin_artist') }}" class="btn btn-warning w-100">Annuler</a>
@@ -25,6 +32,11 @@
 {% endblock %}
 
 {% block title %}
-    Ajout d'artiste
+    {% if app.request.attributes.get('_route') == "admin_artist_add" %}
+        Ajout
+    {% else %}
+        Modification
+    {% endif %}
+    d'artiste
 {% endblock %}
 
