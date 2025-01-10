@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modification artiste
+{% endblock %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Modifier un artiste</h1>
+    {{ form_start(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.content) }}
+    <div class="row">
+        <div class="col">{{ form_row(form.site) }}</div>
+        <div class="col">{{ form_row(form.type) }}</div>
+    </div>
+    {{ form_row(form.imageUrl) }}
+
+    <div class="row">
+        <div class="col">
+            <input type="submit" class="btn btn-success w-100" value="Valider les modifications">
+        </div>
+        <div class="col">
+            <a href="{{ path('admin_artist') }}" class="btn btn-warning w-100">Annuler</a>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+

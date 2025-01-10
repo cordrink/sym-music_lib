@@ -17,13 +17,21 @@ class ArtistType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('content', TextareaType::class)
+            ->add('name', TextType::class, [
+                'label' => "Nom de l'artiste",
+            ])
+            ->add('content', TextareaType::class, [
+                'label' => "Description de l'artiste",
+            ])
             ->add('site', UrlType::class, [
+                'label' => "Site",
                 'default_protocol' => 'https'
             ] )
-            ->add('imageUrl', TextType::class)
+            ->add('imageUrl', TextType::class, [
+                'label' => "Image",
+            ])
             ->add('type', ChoiceType::class, [
+                'label' => "Type d'artiste",
                 "choices" => [
                     "solo" => 0,
                     "groupe" => 1
