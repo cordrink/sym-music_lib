@@ -49,7 +49,7 @@ class ArtistController extends AbstractController
             $manager->persist($artiste);
             $manager->flush();
 
-            $this->addFlash('success',"L'artiste a bien ete $mode");
+            $this->addFlash('success', "L'artiste a bien ete $mode");
 
             return $this->redirectToRoute('admin_artist');
         }
@@ -57,5 +57,26 @@ class ArtistController extends AbstractController
         return $this->render('admin/artist/addUpdateArtist.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+
+    #[Route('/admin/artiste/suppression/{id}', name: 'admin_artist_delete', methods: ['GET'])]
+    public function delArtist(EntityManagerInterface $manager, Artiste $artiste): Response
+    {
+        //dd($artiste);
+        $nbAlbums = $artiste->getAlbums()->count();
+        $nameArtiste = $artiste->getName();
+
+        if ($nbAlbums > 0) {
+            $this->addFlash('danger', "Vous ne pouvez pas supprimer $nameArtiste car il possede $nbAlbums albums");
+        } else {
+            $manager->remove($artiste);
+            $manager->flush();
+
+            $this->addFlash('success', "L'artiste a bien ete supprime");
+        }
+
+
+        return $this->redirectToRoute('admin_artist');
     }
 }

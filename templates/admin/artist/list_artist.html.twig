@@ -45,8 +45,17 @@
                         <a href="{{ path('admin_artist_update', {id: artist.id}) }}" class="btn btn-primary">
                             <i class='bx bx-edit'></i>
                         </a>
-                        <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class='bx bx-trash' style='color:#ffffff' ></i>
+                        <a
+                                type="button"
+                                class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalSimple"
+                                data-title="Suppression d'un artiste"
+                                data-message="Etes vous sur de vouloir supprimer : {{ artist.name }}"
+                                data-label="Supprimer l'artiste"
+                                data-link="{{ path('admin_artist_delete', {id: artist.id}) }}"
+                        >
+                            <i class='bx bx-trash' style='color:#ffffff'></i>
                         </a>
                     </td>
                 </tr>
@@ -57,4 +66,8 @@
             {{ knp_pagination_render(artisteArr) }}
         </div>
     </div>
+{% endblock %}
+
+{% block fin %}
+    {% include 'include/_modale.html.twig' %}
 {% endblock %}
