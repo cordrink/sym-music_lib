@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion artiste{% endblock %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Gestion des artistes</h1>
+
+    <a href="{{ path('admin_artist_add') }}" class="btn btn-success">Ajouter un artiste</a>
+
+    <hr>
+    <div class="row pt-2">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Nom</th>
+                <th scope="col">Detail</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for artist in artisteArr %}
+                {% set nbAlbums = artist.albums|length %}
+                <tr>
+                    <td class="col-1">
+                        <img class="avatar mx-auto" style="height: auto; width: 50px; display: block;"
+                             src="{{ artist.imageUrl }}" alt="Card image">
+                    </td>
+                    <td class="col-2">{{ artist.name }}</td>
+                    <td class="col-7">
+                        <p class="d-flex flex-row">
+                            <span class="align-self-center"
+                                  style="color: white; background-color: green; padding: 5px; border-radius: 5px"
+                            >
+                                {{ nbAlbums }} {% if nbAlbums > 1 %} albums {% else %} album {% endif %}
+                            </span>
+                            <span class="align-self-center mx-3">{% if artist.type == 0 %} Artiste solo {% else %} Groupe {% endif %}</span>
+                            <span class="align-self-center my-auto">{{ artist.site }}</span>
+                        </p>
+                        <p>
+                            {{ artist.content|slice(0,100)|raw }}...
+                        </p>
+                    </td>
+                    <td class="col-2">
+                        <a href="" class="btn btn-primary">
+                            <i class='bx bx-edit'></i>
+                        </a>
+                        <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class='bx bx-trash' style='color:#ffffff' ></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            {{ knp_pagination_render(artisteArr) }}
+        </div>
+    </div>
+{% endblock %}

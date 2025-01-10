@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Artiste;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,6 +30,20 @@ class ArtisteRepository extends ServiceEntityRepository
                 ->getResult()
             ;
         }
+
+    /**
+     * @return Query|null Returns an array of Artiste objects
+     */
+    public function listArtisteAdmin(): ?Query
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a', 'alb')
+            ->innerJoin('a.albums', 'alb')
+            ->orderBy('a.name', 'ASC')
+            ->getQuery()
+//            ->getResult()
+            ;
+    }
 
     //    public function findOneBySomeField($value): ?Artiste
     //    {
