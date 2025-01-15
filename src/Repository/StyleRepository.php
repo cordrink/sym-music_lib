@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Style;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,20 +17,17 @@ class StyleRepository extends ServiceEntityRepository
         parent::__construct($registry, Style::class);
     }
 
-    //    /**
-    //     * @return Style[] Returns an array of Style objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Query|null Returns an array of Style objects
+     */
+    public function listStyle(): ?Query
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s', 'alb')
+            ->leftJoin('s.albums', 'alb')
+            ->orderBy('s.name', 'ASC')
+            ->getQuery();
+    }
 
     //    public function findOneBySomeField($value): ?Style
     //    {

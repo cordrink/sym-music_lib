@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion style{% endblock %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Gestion des styles</h1>
+
+    <a href="{{ path('admin_styles_add') }}" class="btn btn-success">Ajouter un style</a>
+
+    <hr>
+    <div class="row pt-2">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Couleur</th>
+                <th scope="col">Nom</th>
+                <th scope="col"></th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for style in styleArr %}
+                {% set nbStyles = style.albums|length %}
+                <tr>
+                    <td class="col-3">
+                        <span class="d-inline-block border"
+                              style="background-color: {{ style.color }}; width: 60px; height: 25px;border-radius: 5px;"></span>
+                    </td>
+                    <td class="col-5">{{ style.name }}</td>
+                    <td class="col-2">
+                        <p>
+                            <span style="color: white; background-color: green; padding: 5px; border-radius: 5px">
+                                {{ nbStyles }} {% if nbStyles > 1 %} albums {% else %} album {% endif %}
+                            </span>
+                        </p>
+                    </td>
+                    <td class="col-2">
+                        <a href="{{ path('admin_styles_update', {id: style.id}) }}" class="btn btn-primary">
+                            <i class='bx bx-edit'></i>
+                        </a>
+                        <a
+                                type="button"
+                                class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalSimple"
+                                data-title="Suppression d'un style"
+                                data-message="Etes vous sur de vouloir supprimer : {{ style.name }}"
+                                data-label="Supprimer le style"
+                                data-link="{{ path('admin_styles_delete', {id: style.id}) }}"
+                        >
+                            <i class='bx bx-trash' style='color:#ffffff'></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            {{ knp_pagination_render(styleArr) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block fin %}
+    {% include 'include/_modale.html.twig' %}
+{% endblock %}
