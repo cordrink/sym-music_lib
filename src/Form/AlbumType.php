@@ -49,6 +49,9 @@ class AlbumType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'by_reference' => false,
+                'attr' => [
+                    'class' => 'custom-select',
+                ]
             ])
         ;
     }

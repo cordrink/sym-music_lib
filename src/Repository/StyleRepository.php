@@ -19,7 +19,7 @@ class StyleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Query|null Returns an array of Style objects
+     * @return Query|null Returns Query or null
      */
     public function listStyle(): ?Query
     {
@@ -30,6 +30,9 @@ class StyleRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    /**
+     * @return QueryBuilder Returns a QueryBuilder
+     */
     public function filterListStyle(): QueryBuilder
     {
         return $this->createQueryBuilder('s')
