@@ -6,8 +6,14 @@ use App\Repository\AlbumRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AlbumRepository::class)]
+#[UniqueEntity(
+    fields: ["name", "artist"],
+    message: "Le couple nom d'album et nom de l'artiste est deja utilise"
+)]
 class Album
 {
     #[ORM\Id]
@@ -16,9 +22,16 @@ class Album
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1, max: 50)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Range(
+        notInRangeMessage: "l'annee ne peut aller de {{ min }} a {{ max }}",
+        min: 1940,
+        max: 2099
+    )]
     private ?string $createdAt = null;
 
     #[ORM\Column(length: 255)]
@@ -26,6 +39,7 @@ class Album
 
     #[ORM\ManyToOne(inversedBy: 'albums')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Artiste $artist = null;
 
     /**
@@ -38,6 +52,10 @@ class Album
      * @var Collection<int, Style>
      */
     #[ORM\ManyToMany(targetEntity: Style::class, mappedBy: 'albums')]
+    #[Assert\Count(
+        min: 1,
+        minMessage: 'Il vous faut au moin {{ limit }}'
+    )]
     private Collection $styles;
 
     public function __construct()

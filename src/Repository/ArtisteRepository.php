@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Artiste;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -32,7 +33,7 @@ class ArtisteRepository extends ServiceEntityRepository
         }
 
     /**
-     * @return Query|null Returns an array of Artiste objects
+     * @return Query|null Returns a Query
      */
     public function listArtisteAdmin(): ?Query
     {
@@ -43,6 +44,17 @@ class ArtisteRepository extends ServiceEntityRepository
             ->getQuery()
 //            ->getResult()
             ;
+    }
+
+
+    /**
+     * @return QueryBuilder Returns a QueryBuilder
+     */
+    public function filterListArtist(): QueryBuilder
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a')
+            ->orderBy('a.name', 'ASC');
     }
 
     //    public function findOneBySomeField($value): ?Artiste

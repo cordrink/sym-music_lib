@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des albums{% endblock %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Gestion des albums</h1>
+
+    <a href="{{ path('admin_album_add') }}" class="btn btn-success">Ajouter un album</a>
+
+    <hr>
+    <div class="row pt-2">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Nom</th>
+                <th scope="col">Annee</th>
+                <th scope="col">Artiste</th>
+                <th scope="col">style</th>
+                <th scope="col">Morceaux</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for album in albumList %}
+                {% set nbPiece = album.pieces|length %}
+                <tr>
+                    <td class="col-1">
+                        <img class="avatar mx-auto" style="height: auto; width: 50px; display: block;"
+                             src="{{ album.imageUrl }}" alt="Card image">
+                    </td>
+
+                    <td class="col-2">{{ album.name }}</td>
+
+                    <td class="col-1">{{ album.createdAt }}</td>
+
+                    <td class="col-2">{{ album.artist.name }}</td>
+
+                    <td class="col-2">
+                        {% for style in album.styles %}
+                            <span style="background-color: {{ style.color }}; color: white; padding: 5px; border-radius: 5px">{{ style.name }}</span>
+                        {% endfor %}
+                    </td>
+
+                    <td class="col-2">
+                        <p class="d-flex flex-row">
+                            <span class="align-self-center"
+                                  style="color: white; background-color: green; padding: 5px; border-radius: 5px"
+                            >
+                                {{ nbPiece }} morceaux
+                            </span>
+                        </p>
+                    </td>
+
+                    <td class="col-2">
+                        <a href="{{ path('admin_album_update', {id: album.id}) }}" class="btn btn-primary">
+                            <i class='bx bx-edit'></i>
+                        </a>
+                        <a
+                                type="button"
+                                class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalSimple"
+                                data-title="Suppression d'un album"
+                                data-message="Etes vous sur de vouloir supprimer : {{ album.name }}"
+                                data-label="Supprimer l'album"
+                                data-link="{{ path('admin_album_delete', {id: album.id}) }}"
+                        >
+                            <i class='bx bx-trash' style='color:#ffffff'></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            {{ knp_pagination_render(albumList) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block fin %}
+    {% include 'include/_modale.html.twig' %}
+{% endblock %}

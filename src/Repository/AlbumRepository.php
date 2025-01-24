@@ -24,9 +24,9 @@ class AlbumRepository extends ServiceEntityRepository
         {
             return $this->createQueryBuilder('a')
                 ->select('a', 's', 'art','p')
-                ->innerJoin('a.styles', 's')
-                ->innerJoin('a.artist', 'art')
-                ->innerJoin('a.pieces', 'p')
+                ->leftJoin('a.styles', 's')
+                ->leftJoin('a.artist', 'art')
+                ->leftJoin('a.pieces', 'p')
                 ->orderBy('a.name', 'ASC')
                 ->getQuery()
 //                ->getResult()

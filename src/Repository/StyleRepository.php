@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Style;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,6 +28,13 @@ class StyleRepository extends ServiceEntityRepository
             ->leftJoin('s.albums', 'alb')
             ->orderBy('s.name', 'ASC')
             ->getQuery();
+    }
+
+    public function filterListStyle(): QueryBuilder
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->orderBy('s.name', 'ASC');
     }
 
     //    public function findOneBySomeField($value): ?Style
