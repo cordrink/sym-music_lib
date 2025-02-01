@@ -26,29 +26,51 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ path('app_accueil') }}">Accueil</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                       aria-haspopup="true" aria-expanded="false">Gestion des artistes</a>
-                    <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" href="{{ path('app_artiste') }}">Liste des artistes</a>
-                    </div>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{ path('app_artiste') }}">Liste des artistes</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                       aria-haspopup="true" aria-expanded="false">Gestion des albums</a>
-                    <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" href="{{ path('app_album_list') }}">Liste des albums</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_album_list') }}">Liste des albums</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                       aria-haspopup="true" aria-expanded="false">Administration</a>
-                    <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" href="{{ path('admin_artist') }}">Gestion des artistes</a>
-                        <a class="dropdown-item" href="{{ path('admin_styles') }}">Gestion des styles</a>
-                        <a class="dropdown-item" href="{{ path('admin_album_list') }}">Gestion des albums</a>
-                    </div>
-                </li>
+                {% if app.user and is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false">Administration</a>
+                        <div class="dropdown-menu" style="">
+                            <a class="dropdown-item" href="{{ path('admin_artist') }}">Gestion des artistes</a>
+                            <a class="dropdown-item" href="{{ path('admin_styles') }}">Gestion des styles</a>
+                            <a class="dropdown-item" href="{{ path('admin_album_list') }}">Gestion des albums</a>
+                        </div>
+                    </li>
+                {% endif %}
+
+            </ul>
+            <ul class="navbar-nav my-auto">
+                {% if app.user %}
+                    <li class="nav-item">
+                        <img class="avatar supermini" src="{{ app.user.avatar }}"
+                             alt="photo de {{ app.user.fullName }}">
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false">{{ app.user.fullName }}</a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">Mon profil</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('app_logout') }}">Se deconnecter</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_register') }}" class="nav-link">S'inscrire</a>
+                    </li>
+                {% endif %}
+
+
             </ul>
         </div>
     </div>
@@ -57,14 +79,14 @@
 <div class="container">
 
     {% for label, messages in app.flashes %}
-    {#affiche tous les messages flash#}
+        {# affiche tous les messages flash #}
         <div class="alert alert-{{ label }} mt-2">
             {% for message in messages %}
                 <p>{{ message }}</p>
             {% endfor %}
         </div>
     {% endfor %}
-    
+
     {% block body %}{% endblock %}
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -73,7 +95,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ asset('assets/js/editor.js') }}"></script>
 {% block fin %}
 
