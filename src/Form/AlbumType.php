@@ -10,9 +10,12 @@ use App\Repository\StyleRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class AlbumType extends AbstractType
 {
@@ -28,10 +31,28 @@ class AlbumType extends AbstractType
             ->add('createdAt', TextType::class, [
                 'label' => 'Anne de l\'album',
             ])
-            ->add('imageUrl', TextType::class, [
-                'label' => 'image',
+            ->add('imageFile', FileType::class, [
+                'mapped' => false,
                 'required' => false,
+                'label' => 'Charger la pochette',
+                'attr' => [
+                    'accept' => '.jpg, .png',
+                ],
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '4k',
+                        'maxSizeMessage' => "La taille maximu doit etre de 4ko" ,
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ]
+                    ])
+                ],
+                'row_attr' => [
+                    'class' => 'd-none ',
+                ]
             ])
+            ->add('imageUrl', HiddenType::class)
             ->add('artist', EntityType::class, [
                 'label' => 'Nom de l\'artiste',
                 'class' => Artiste::class,

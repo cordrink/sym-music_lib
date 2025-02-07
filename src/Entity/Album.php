@@ -58,10 +58,15 @@ class Album
     )]
     private Collection $styles;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
     public function __construct()
     {
         $this->pieces = new ArrayCollection();
         $this->styles = new ArrayCollection();
+        $this->setupdatedAt(new \DateTimeImmutable());
+        $this->setImageUrl("pochette_vierge.jpg");
     }
 
     public function getId(): ?int
@@ -177,6 +182,18 @@ class Album
         if ($this->styles->removeElement($style)) {
             $style->removeAlbum($this);
         }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

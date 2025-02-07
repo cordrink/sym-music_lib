@@ -17,13 +17,31 @@
     {{ form_start(formAlbum) }}
 
     <div class="row">
-        <div class="col">{{ form_row(formAlbum.name) }}</div>
-        <div class="col">{{ form_row(formAlbum.imageUrl) }}</div>
-    </div>
-    <div class="row">
-        <div class="col">{{ form_row(formAlbum.createdAt) }}</div>
-        <div class="col">{{ form_row(formAlbum.artist) }}</div>
-        <div class="col">{{ form_row(formAlbum.styles) }}</div>
+        <div class="col-8">
+            {{ form_row(formAlbum.name) }}
+            {{ form_row(formAlbum.createdAt) }}
+            {{ form_row(formAlbum.artist) }}
+            {{ form_row(formAlbum.styles) }}
+        </div>
+        <div class="col-4">
+            <div>
+                <img class="rounded mx-auto d-block"
+                     id="changeUpload"
+                     src="{{ asset('images/albums/' ~ formAlbum.imageUrl.vars.value) }}"
+                     style="max-width: 60%"
+                     alt="{{ formAlbum.imageUrl.vars.value }}"
+                >
+            </div>
+
+            <div>
+                {{ form_row(formAlbum.imageFile) }}
+                {{ form_errors(formAlbum.imageFile) }}
+                <a class="btn btn-primary d-block center" id="load_pouch">
+                    <i class='bx bx-upload'></i>
+                    <span>Charger la pochette</span>
+                </a>
+            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -51,9 +69,10 @@
 {% block fin %}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.custom-select').select2();
         });
     </script>
+    <script src="{{ asset('assets/js/uploadManager.js') }}" defer></script>
 {% endblock %}
 

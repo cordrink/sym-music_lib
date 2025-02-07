@@ -19,7 +19,7 @@
                         </h5>
                     </div>
                     <img class="avatar mx-auto" style="height: auto; width: 200px; display: block;"
-                         src="{{ album.imageUrl }}" alt="Card image">
+                         src="{{ asset('images/albums/' ~ album.imageUrl) }}" alt="Card image">
                     <div class="card-body">
                         <p class="card-text">{{ album.createdAt }}</p>
                     </div>

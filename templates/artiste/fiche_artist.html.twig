@@ -48,7 +48,7 @@
         {% for album in artisteObj.albums %}
             <tr>
                 <td>
-                    <img class="miniature" src="{{ album.imageUrl }}" alt="">
+                    <img class="miniature" src="{{ asset('images/albums/' ~ album.imageUrl) }}" alt="">
                 </td>
                 <td>{{ album.name }}</td>
                 <td>{{ album.createdAt }}</td>

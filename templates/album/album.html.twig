@@ -11,12 +11,13 @@
                 <div class="row">
                     <div class="col-3 d-flex align-items-center mx-auto">
                         <img class="avatar mx-auto" style="height: auto; width: 200px; display: block;"
-                             src="{{ album.imageUrl }}" alt="Card image">
+                             src="{{ asset('images/albums/' ~ album.imageUrl) }}" alt="Card image">
                     </div>
                     <div class="col">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a href="{{ path('ficheArtiste', {'id': album.artist.id}) }}" class="badge badge-success text-decoration-none"
+                                <a href="{{ path('ficheArtiste', {'id': album.artist.id}) }}"
+                                   class="badge badge-success text-decoration-none"
                                    style="color: white; background-color: green">
                                     {{ album.artist.name }}
                                 </a>

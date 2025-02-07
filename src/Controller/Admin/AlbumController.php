@@ -44,15 +44,20 @@ class AlbumController extends AbstractController
         $formAlbum->handleRequest($request);
 
         if ($formAlbum->isSubmitted() && $formAlbum->isValid()) {
+            // On recupere l'image selectionnee
+            $imageObj = $formAlbum['imageFile']->getData();
 
-            $imageUrl = $formAlbum->getData()->getImageUrl();
-
-            if ($imageUrl == null) {
-                $album->setImageUrl("https://previews.123rf.com/images/kannaa123rf/kannaa123rf1608/kannaa123rf160800029/61248392-r%C3%A9sum%C3%A9-fond-musical-avec-disque-vinyle-disque-album-lp-notes-noires-isol%C3%A9-sur-fond-blanc-vector.jpg");
+            if ($imageObj != null) {
+                if ($album->getImageUrl() !== "pochette_vierge.jpg") {
+                    // On supprime l'ancien fichier
+                    \unlink($this->getParameter('imagesAlbumsDestination') . $album->getImageUrl());
+                }
+                // On cree le nom du nouveau fichier
+                $fileName = md5(\uniqid()) . "." . $imageObj->guessExtension();
+                // On place le fichier charge dans le dossier public
+                $imageObj->move($this->getParameter('imagesAlbumsDestination'), $fileName);
+                $album->setImageUrl($fileName);
             }
-
-
-            //dd($formAlbum->getData()->getId());
 
             $manager->persist($album);
             $manager->flush();
