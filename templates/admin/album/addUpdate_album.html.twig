@@ -44,6 +44,41 @@
         </div>
     </div>
 
+    <h3>Liste des morceaux de l'album</h3>
+    <button type="button" class="add-piece btn btn-primary">Ajouter un morceau</button>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Titre</th>
+            <th scope="col">Duree</th>
+            <th scope="col">Piste</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody
+                id="subForm"
+                data-index="{{ formAlbum.pieces|length > 0 ? formAlbum.pieces|last.vars.name+1 : 0 }}"
+                data-prototype="{{ _self.showPiece(formAlbum.pieces.vars.prototype)|e('html_attr') }}"
+        >
+        {% for piece in formAlbum.pieces %}
+            {{ _self.showPiece(piece) }}
+        {% endfor %}
+
+        {% macro showPiece(piece) %}
+            <tr>
+                <td class="col-6">{{ form_row(piece.title) }}</td>
+                <td class="col-2">{{ form_row(piece.duration) }}</td>
+                <td class="col-2">{{ form_row(piece.Piste) }}</td>
+                <td class="col-2">
+                    <a href="" class="btn btn-danger del_piece">
+                        <i class='bx bx-trash' style='color:#ffffff'></i>
+                    </a>
+                </td>
+            </tr>
+        {% endmacro %}
+        </tbody>
+    </table>
+
     <div class="row">
         <div class="col">
             <input type="submit" class="btn btn-success w-100"
@@ -74,5 +109,38 @@
         });
     </script>
     <script src="{{ asset('assets/js/uploadManager.js') }}" defer></script>
+    <script>
+        window.onload = () => {
+            // Je recuper le bouton "ajouter un morceau"
+            const btn_add_piece = document.querySelector('.add-piece');
+            // J'ecoute le clic sur ce bouton pour declencher addFormCollection
+            btn_add_piece.addEventListener('click', addFormToCollection);
+            listenSuppr()
+        };
+
+        function addFormToCollection() {
+            const collection = document.querySelector('#subForm');
+            let index = collection.dataset.index;
+            let proto = collection.dataset.prototype;
+
+            proto = proto.replace(/__name__/g,index);
+            let elementToAdd = document.createElement('tr');
+            elementToAdd.innerHTML = proto;
+            collection.appendChild(elementToAdd);
+            collection.dataset.index++;
+
+            listenSuppr()
+        }
+
+        function listenSuppr() {
+            const buttonList = document.querySelectorAll('.del_piece')
+
+            buttonList.forEach(button => {
+                button.addEventListener('click', () => {
+                    this.parentNode.parentNode.remove();
+                })
+            })
+        }
+    </script>
 {% endblock %}
 

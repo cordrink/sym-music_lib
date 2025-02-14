@@ -10,6 +10,7 @@ use App\Repository\StyleRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -73,6 +74,14 @@ class AlbumType extends AbstractType
                 'attr' => [
                     'class' => 'custom-select',
                 ]
+            ])
+            ->add('pieces', CollectionType::class, [
+                'entry_type' => PieceType::class,
+                'label' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
             ])
         ;
     }

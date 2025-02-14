@@ -45,7 +45,7 @@ class Album
     /**
      * @var Collection<int, Piece>
      */
-    #[ORM\OneToMany(targetEntity: Piece::class, mappedBy: 'album')]
+    #[ORM\OneToMany(targetEntity: Piece::class, mappedBy: 'album', cascade: ["persist"], orphanRemoval: true)]
     private Collection $pieces;
 
     /**
