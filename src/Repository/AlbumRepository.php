@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Album;
+use App\Model\FilterAlbum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,18 +21,44 @@ class AlbumRepository extends ServiceEntityRepository
     /**
      * @return Query|null Returns an array of Album objects
      */
-        public function listAlbum(): ?Query
-        {
-            return $this->createQueryBuilder('a')
-                ->select('a', 's', 'art','p')
-                ->leftJoin('a.styles', 's')
-                ->leftJoin('a.artist', 'art')
-                ->leftJoin('a.pieces', 'p')
-                ->orderBy('a.name', 'ASC')
-                ->getQuery()
-//                ->getResult()
-            ;
+    public function listAlbum(FilterAlbum $filter): ?Query
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('a', 's', 'art', 'p')
+            ->leftJoin('a.styles', 's')
+            ->leftJoin('a.artist', 'art')
+            ->leftJoin('a.pieces', 'p')
+            ->orderBy('a.name', 'ASC');
+
+        if (!empty($filter->name)) {
+            $query->andWhere('a.name like :name')
+                ->setParameter('name', "%{$filter->name}%");
         }
+
+        if (!empty($filter->artist)) {
+            $query->andWhere('a.artist = :artist')
+                ->setParameter('artist', $filter->artist);
+        }
+
+        /*if (0 !== count($filter->styles)) {
+            foreach ($filter->styles as $key => $style) {
+                $query->andWhere(":style$key MEMBER OF a.styles")
+                    ->setParameter("style$key", $style);
+            }
+        }*/
+
+        if (0 !== count($filter->styles)) {
+            $conditions = [];
+            foreach ($filter->styles as $key => $style) {
+                $conditions[] = $query->expr()->isMemberOf(":style$key", "a.styles");
+                $query->setParameter("style$key", $style);
+            }
+            $blockConditionOr = $query->expr()->orX()->addMultiple($conditions);
+            $query->andWhere($blockConditionOr);
+        }
+
+        return $query->getQuery();
+    }
 
     //    public function findOneBySomeField($value): ?Album
     //    {

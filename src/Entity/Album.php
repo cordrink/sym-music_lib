@@ -23,7 +23,12 @@ class Album
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 50)]
+    #[Assert\Length(
+        min: 1,
+        max: 50,
+        minMessage: "Le nom de l'album doit comporter au minimum {{ limit }} caracteres",
+        maxMessage: "Le nom de l'album doit comporter au maximum {{ limit }} caracteres",
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]

@@ -7,7 +7,6 @@ use App\Entity\Artiste;
 use App\Entity\Style;
 use App\Repository\ArtisteRepository;
 use App\Repository\StyleRepository;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -42,7 +41,7 @@ class AlbumType extends AbstractType
                 'constraints' => [
                     new Image([
                         'maxSize' => '4k',
-                        'maxSizeMessage' => "La taille maximu doit etre de 4ko" ,
+                        'maxSizeMessage' => "La taille maximu doit etre de 4ko",
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
@@ -82,8 +81,7 @@ class AlbumType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype' => true,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

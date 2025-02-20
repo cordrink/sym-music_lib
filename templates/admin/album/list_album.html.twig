@@ -7,6 +7,17 @@
 
     <a href="{{ path('admin_album_add') }}" class="btn btn-success">Ajouter un album</a>
 
+    {{ form_start(formFilterAlbum) }}
+    <div class="row mt-2">
+        <div class="col">{{ form_row(formFilterAlbum.name) }}</div>
+        <div class="col">{{ form_row(formFilterAlbum.artist) }}</div>
+        <div class="col">{{ form_row(formFilterAlbum.styles) }}</div>
+    </div>
+
+    <button type="submit" class="btn btn-warning">Rechercher</button>
+
+    {{ form_end(formFilterAlbum) }}
+
     <hr>
     <div class="row pt-2">
         <table class="table table-hover">
