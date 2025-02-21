@@ -40,7 +40,7 @@ class AlbumType extends AbstractType
                 ],
                 'constraints' => [
                     new Image([
-                        'maxSize' => '4k',
+                        'maxSize' => '200k',
                         'maxSizeMessage' => "La taille maximu doit etre de 4ko",
                         'mimeTypes' => [
                             'image/jpeg',
