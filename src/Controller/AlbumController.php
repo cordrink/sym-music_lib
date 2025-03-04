@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Album;
+use App\Model\FilterAlbum;
 use App\Repository\AlbumRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +16,9 @@ class AlbumController extends AbstractController
     #[Route('/albums', name: 'app_album_list', methods: ['GET'])]
     public function index(AlbumRepository $albumRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $query = $albumRepository->listAlbum();
+        $filter = new FilterAlbum();
+
+        $query = $albumRepository->listAlbum($filter);
 
         $albumArr = $paginator->paginate(
             $query, /* query NOT result */

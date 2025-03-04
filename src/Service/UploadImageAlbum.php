@@ -5,9 +5,9 @@ namespace App\Service;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class UploadImage
+class UploadImageAlbum implements UploadFileInterface
 {
-    private $parameterBag;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(ParameterBagInterface $parameterBag){
         $this->parameterBag = $parameterBag;
@@ -20,6 +20,7 @@ class UploadImage
      */
     public function upload(UploadedFile $imageObj, string $imageName): ?string
     {
+        //dd($imageName);
         if ($imageName !== "pochette_vierge.jpg") {
             // On supprime l'ancien fichier
             \unlink($this->parameterBag->get("imagesAlbumsDestination") . $imageName);

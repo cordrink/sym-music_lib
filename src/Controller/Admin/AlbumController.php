@@ -7,7 +7,8 @@ use App\Form\AlbumType;
 use App\Form\FiltreAlbumType;
 use App\Model\FilterAlbum;
 use App\Repository\AlbumRepository;
-use App\Service\UploadImage;
+use App\Service\UploadFileInterface;
+use App\Service\UploadImageAlbum;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +40,7 @@ class AlbumController extends AbstractController
 
     #[Route('/admin/albums/ajout', name: 'admin_album_add', methods: ['GET', 'POST'])]
     #[Route('/admin/albums/modif/{id}', name: 'admin_album_update', methods: ['GET', 'POST'])]
-    public function addUpdateAlbum(EntityManagerInterface $manager, Request $request, UploadImage $uploadImage,Album $album = null): Response
+    public function addUpdateAlbum(EntityManagerInterface $manager, Request $request, UploadFileInterface $fileImageAlbum, Album $album = null): Response
     {
         if ($album == null) {
             $album = new Album();
@@ -53,10 +54,12 @@ class AlbumController extends AbstractController
         $formAlbum->handleRequest($request);
 
         if ($formAlbum->isSubmitted() && $formAlbum->isValid()) {
-            $newNameImage = $uploadImage->upload($formAlbum['imageFile']->getData(), $album->getImageUrl());
+            if ($formAlbum->get('imageFile')->getData() != null) {
+                $newNameImage = $fileImageAlbum->upload($formAlbum['imageFile']->getData(), $album->getImageUrl());
 
-            if ($newNameImage != null) {
-                $album->setImageUrl($newNameImage);
+                if ($newNameImage != null) {
+                    $album->setImageUrl($newNameImage);
+                }
             }
 
             $manager->persist($album);
