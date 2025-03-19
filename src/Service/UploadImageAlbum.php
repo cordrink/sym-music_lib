@@ -2,15 +2,14 @@
 
 namespace App\Service;
 
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadImageAlbum implements UploadFileInterface
 {
-    private ParameterBagInterface $parameterBag;
+    private string  $destination;
 
-    public function __construct(ParameterBagInterface $parameterBag){
-        $this->parameterBag = $parameterBag;
+    public function __construct(string $destination){
+        $this->destination = $destination;
     }
 
     /**
@@ -23,12 +22,12 @@ class UploadImageAlbum implements UploadFileInterface
         //dd($imageName);
         if ($imageName !== "pochette_vierge.jpg") {
             // On supprime l'ancien fichier
-            \unlink($this->parameterBag->get("imagesAlbumsDestination") . $imageName);
+            \unlink($this->destination . $imageName);
         }
         // On cree le nom du nouveau fichier
         $newFileName = md5(\uniqid('', true)) . "." . $imageObj->guessExtension();
         // On place le fichier charge dans le dossier public
-        $imageObj->move($this->parameterBag->get("imagesAlbumsDestination"), $newFileName);
+        $imageObj->move($this->destination, $newFileName);
         return $newFileName;
 
     }

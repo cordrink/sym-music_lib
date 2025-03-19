@@ -10,14 +10,34 @@
         d'un artiste
     </h1>
     {{ form_start(form) }}
-
-    {{ form_row(form.name) }}
-    {{ form_row(form.content) }}
     <div class="row">
-        <div class="col">{{ form_row(form.site) }}</div>
-        <div class="col">{{ form_row(form.type) }}</div>
+        <div class="col-8">
+            {{ form_row(form.name) }}
+            {{ form_row(form.site) }}
+            {{ form_row(form.type) }}
+            {{ form_row(form.imageUrl) }}
+        </div>
+        <div class="col-4">
+            <div>
+                <img class="rounded mx-auto d-block"
+                     id="changeUpload"
+                     src="{{ asset('images/artists/' ~ form.imageUrl.vars.value) }}"
+                     style="max-width: 60%"
+                     alt="{{ form.imageUrl.vars.value }}"
+                >
+            </div>
+
+            <div>
+                {{ form_row(form.imageFile, {'id': "imageFile"}) }}
+                {{ form_errors(form.imageFile) }}
+                <a class="btn btn-primary d-block center" id="load_image">
+                    <i class='bx bx-upload'></i>
+                    <span>Charger la photo</span>
+                </a>
+            </div>
+        </div>
     </div>
-    {{ form_row(form.imageUrl) }}
+    {{ form_row(form.content) }}
 
     <div class="row">
         <div class="col">
@@ -41,6 +61,7 @@
 {% endblock %}
 
 {% block fin %}
+    <script src="{{ asset('assets/js/uploadManager.js') }}" defer></script>
     <script>
         ClassicEditor.create( document.querySelector( '#artist_content' ) );
     </script>

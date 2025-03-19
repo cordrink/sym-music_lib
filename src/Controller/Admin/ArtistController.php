@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Artiste;
 use App\Form\ArtistType;
 use App\Repository\ArtisteRepository;
+use App\Service\UploadFileInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,9 +32,9 @@ class ArtistController extends AbstractController
 
     #[Route('/admin/artiste/ajout', name: 'admin_artist_add', methods: ['GET', 'POST'])]
     #[Route('/admin/artiste/modif/{id}', name: 'admin_artist_update', methods: ['GET', 'POST'])]
-    public function addUpdateArtist(Request $request, EntityManagerInterface $manager, Artiste $artiste = null): Response
+    public function addUpdateArtist(Request $request, EntityManagerInterface $manager, UploadFileInterface $fileImageArtist, Artiste $artiste = null): Response
     {
-        if ($artiste == null) {
+        if ($artiste === null) {
             $artiste = new Artiste();
             $mode = "ajoute";
         } else {
@@ -45,6 +46,13 @@ class ArtistController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //dd($artiste);
+            if ($form->get('imageFile')->getData() !== null) {
+                $newNameImage = $fileImageArtist->upload($form['imageFile']->getData(), $artiste->getImageUrl());
+
+                if ($newNameImage !== null) {
+                    $artiste->setImageUrl($newNameImage);
+                }
+            }
 
             $manager->persist($artiste);
             $manager->flush();

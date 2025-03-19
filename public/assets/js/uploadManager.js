@@ -1,7 +1,7 @@
 // On recupere le boutton de chargement
-const btnLoad = document.getElementById("load_pouch");
+const btnLoad = document.getElementById("load_image");
 // On recupere le champ d'upload
-const fileUpload = document.getElementById("album_imageFile");
+const fileUpload = document.getElementById("imageFile");
 // On recupere le champ img qui affiche l'image
 const imagePoster = document.getElementById("changeUpload");
 

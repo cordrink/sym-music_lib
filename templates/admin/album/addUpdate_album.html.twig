@@ -29,9 +29,9 @@
             </div>
 
             <div>
-                {{ form_row(formAlbum.imageFile) }}
+                {{ form_row(formAlbum.imageFile, {'id': "imageFile"}) }}
                 {{ form_errors(formAlbum.imageFile) }}
-                <a class="btn btn-primary d-block center" id="load_pouch">
+                <a class="btn btn-primary d-block center" id="load_image">
                     <i class='bx bx-upload'></i>
                     <span>Charger la pochette</span>
                 </a>

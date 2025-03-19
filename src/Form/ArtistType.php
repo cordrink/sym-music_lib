@@ -5,12 +5,14 @@ namespace App\Form;
 use App\Entity\Artiste;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ArtistType extends AbstractType
 {
@@ -40,6 +42,28 @@ class ArtistType extends AbstractType
                     "groupe" => 1
                 ]
             ])
+            ->add('imageFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'Charger la photo',
+                'attr' => [
+                    'accept' => '.jpg, .png',
+                ],
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '200k',
+                        'maxSizeMessage' => "La taille maximu doit etre de 4ko",
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ]
+                    ])
+                ],
+                'row_attr' => [
+                    'class' => 'd-none ',
+                ]
+            ])
+            ->add('imageUrl', HiddenType::class)
         ;
     }
 
