@@ -22,7 +22,7 @@
                         </h5>
                     </div>
                     <img class="avatar mx-auto" style="height: auto; width: 200px; display: block;"
-                         src="{{ artist.imageUrl }}" alt="Card image">
+                         src="{{ asset('images/artists/' ~ artist.imageUrl) }}" alt="Card image">
                     <div class="card-body">
                         <p class="card-text">{{ artist.content|slice(0,100)|raw }}...</p>
                     </div>
