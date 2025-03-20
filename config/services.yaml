@@ -32,3 +32,15 @@ services:
   App\Service\UploadImageArtist:
     arguments:
       - '%imagesArtistsDestination%'
+
+  App\Listener\EntityStyleListener:
+      tags:
+        - name: 'doctrine.orm.entity_listener'
+          event: 'preUpdate'
+          entity: 'App\Entity\Style'
+          lazy: true
+
+  App\Listener\LifecycleStyleListener:
+    tags:
+      - name: 'doctrine.event_listener'
+        event: 'preUpdate'
