@@ -148,9 +148,8 @@ class Style
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-   /* #[ORM\PreUpdate]
-    public function changeUpdateValue(PreUpdateEventArgs $args): void {
-        dump("changeUpdateValue");
-        //$this->updatedAt = new \DateTimeImmutable();
-    }*/
+    #[ORM\PreUpdate]
+    public function changeUpdateValue(): void {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 }

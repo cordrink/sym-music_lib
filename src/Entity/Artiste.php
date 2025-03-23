@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArtisteRepository;
+use App\Traits\MajDateTraits;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -15,8 +16,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields: ["name"],
     message: "Le nom de l'artiste est deja utilise"
 )]
+#[ORM\HasLifecycleCallbacks]
 class Artiste
 {
+    use MajDateTraits;
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column]
@@ -29,9 +33,7 @@ class Artiste
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(
         min: 10,
-        max: 15,
         minMessage: "La description doit comporter au minimum {{ limit }} caracteres",
-        maxMessage: "La description doit comporter au maximun {{ limti }} caracteres"
     )]
     private ?string $content = null;
 

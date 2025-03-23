@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\PieceRepository;
+use App\Traits\MajDateTraits;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PieceRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Piece
 {
+    use MajDateTraits;
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column]

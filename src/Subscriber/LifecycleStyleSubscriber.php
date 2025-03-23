@@ -13,7 +13,7 @@ class LifecycleStyleSubscriber implements EventSubscriberInterface
     /**
      * @inheritDoc
      */
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::preUpdate,
@@ -26,7 +26,8 @@ class LifecycleStyleSubscriber implements EventSubscriberInterface
         if (!$entity instanceof Style) {
             return;
         }
+
         //dump("LifecycleStyleSubscriber");
-//        $entity->changeUpdateValue(new \DateTime());
+        //$entity->setUpdatedAt(new \DateTimeImmutable());
     }
 }
